@@ -89,6 +89,14 @@ class HomePortal extends Component
         $titleColumn = "title_{$locale}";
         $descColumn = "desc_{$locale}";
 
+if (env('PORTAL_STATIC_MODE', false)) {
+    return view('livewire.home-portal-static', [
+        'locale' => $locale,
+        'search' => $this->search,
+        'selectedTag' => $this->selectedTag,
+    ])->layout('components.app');
+}
+
         $machineries = Machinery::query()
             ->when($this->search !== '', function ($query) use ($titleColumn, $descColumn) {
                 $query->where(function ($q) use ($titleColumn, $descColumn) {
